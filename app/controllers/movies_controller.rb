@@ -17,6 +17,16 @@ class MoviesController < ApplicationController
     @ratings = params[:ratings]
     @sort_by = params[:sort_by]
 
+    if @ratings or @sort_by
+       session[:ratings] = @ratings
+       session[:sort_by] = @sort_by
+    elsif  session[:ratings] or session[:sort_by]
+       redirect_to :action => "index", :ratings => session[:ratings], :sort_by => session[:sort_by]
+    end
+
+    #@test = session[:test]
+
+
 
     if @ratings and @ratings.size > 0
        selratings = []
