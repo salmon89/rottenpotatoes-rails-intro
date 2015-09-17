@@ -11,7 +11,30 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    # @movies = Movie.all
+    @sortorder = "asc"
+
+    @ratings = params[:ratings]
+    @sort_by = params[:sort_by]
+
+
+    if @ratings and @ratings.size > 0
+       selratings = []
+       @ratings.each {|k, v| selratings.push (k) if v}
+       @movies = Movie.where("rating in (?)", selratings)
+    else
+       @movies = Movie.all
+       @ratings = {}
+    end
+    if Movie.column_names.include? @sort_by
+      case @sort_by
+        when 'title'
+          @movies = @movies.order("title ASC").all
+        when 'release_date'
+          @movies = @movies.order("release_date ASC").all
+      end
+    end
+    @all_ratings = Movie::RATINGS
   end
 
   def new
