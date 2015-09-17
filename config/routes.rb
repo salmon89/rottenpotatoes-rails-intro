@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   #   resources :products
 
   resources :movies
+  get 'movies_sort_bytitle' => 'movies#sort_bytitle'
+  get 'movies_sort_bydate' => 'movies#sort_bydate'
   
   # Example resource route with options:
   #   resources :products do
